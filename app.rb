@@ -27,13 +27,10 @@ post '/command' do
 	data = JSON.parse(request.body.read)
 	command = data["command"]
 	tests = data["tests"]
-
 	contents = command + "\n" + tests
-
 	File.open('tmp/test.rb', 'w') { |f| f.write contents}
-
 	output = output = `rspec tmp/test.rb -f json`
-	
+	`rm tmp/test.rb`
 	return output
 end
 

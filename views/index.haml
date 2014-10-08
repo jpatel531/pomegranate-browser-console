@@ -2,13 +2,23 @@
 
 	%div{:"ng-controller" => "AppCtrl"}
 
+		%ui-codemirror.code-here{:"ng-model" => "tests", :"ui-codemirror-opts" => "editorOptions"}
 
-		%textarea{:"ng-model" => "tests"}
-
-		%textarea{:"ng-model" => "command"}
+		%ui-codemirror.code-here{:"ng-model" => "command", :"ui-codemirror-opts" => "editorOptions" }
 		
 
 		%div
 			%button{:"ng-click" => "submitCommand($event)"} Submit!
 
-		{{results}}
+		%div
+			{{results.summary_line}}
+
+
+
+			{{results}}
+
+
+			%ul
+				%li{:"ng-repeat" => "example in results.examples"}
+					{{example.full_description}}
+
