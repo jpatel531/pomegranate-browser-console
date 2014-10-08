@@ -1,1 +1,14 @@
-%h1 Sinatra has taken the stage
+%div{:"ng-app" =>"console"}
+
+	%div{:"ng-controller" => "AppCtrl"}
+
+
+		%textarea{:"ng-model" => "tests"}
+
+		%textarea{:"ng-model" => "command"}
+		
+
+		%div
+			%button{:"ng-click" => "submitCommand($event)"} Submit!
+
+		{{results}}

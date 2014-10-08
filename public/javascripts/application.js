@@ -1,10 +1,10 @@
-$(document).ready(function() {
+angular.module('console', []).controller('AppCtrl', function($scope, $http){
 
-	// Open external links in a new window
-	hostname = window.location.hostname
-	$("a[href^=http]")
-	  .not("a[href*='" + hostname + "']")
-	  .addClass('link external')
-	  .attr('target', '_blank');
+	$scope.submitCommand = function(event) {
+		$http.post('/command', {command: $scope.command, tests: $scope.tests}).success(function(data){
+			$scope.results = data
+		});
+	};
+
 
 });

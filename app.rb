@@ -1,6 +1,8 @@
 require 'rubygems'
 require 'sinatra'
 require 'haml'
+require 'json'
+require 'rspec'
 
 # Helpers
 require './lib/render_partial'
@@ -19,3 +21,22 @@ end
 get '/about' do
   haml :about, :layout => :'layouts/application'
 end
+
+post '/command' do 
+	response['Access-Control-Allow-Origin'] = '*'
+	data = JSON.parse(request.body.read)
+	command = data["command"]
+	tests = data["tests"]
+
+	contents = command + "\n" + tests
+
+	File.open('tmp/test.rb', 'w') { |f| f.write contents}
+
+	output = output = `rspec tmp/test.rb -f json`
+	
+	return output
+end
+
+
+
+
