@@ -11,14 +11,11 @@
 			%button{:"ng-click" => "submitCommand($event)"} Submit!
 
 		%div
-			{{results.summary_line}}
-
-
-
-			{{results}}
-
+			%h5 {{results.summary_line}}
 
 			%ul
-				%li{:"ng-repeat" => "example in results.examples"}
+				%li{:"ng-repeat" => "example in results.examples", :"ng-class" => "{'failed': example.status == 'failed', 'passed': example.status == 'passed'}"}
 					{{example.full_description}}
+					%ul{:"ng-show" => "example.status == 'failed'"}
+						%li {{example.exception.class}} : {{example.exception.message}}
 

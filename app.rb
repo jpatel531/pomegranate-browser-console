@@ -29,7 +29,7 @@ post '/command' do
 	tests = data["tests"]
 	contents = command + "\n" + tests
 	File.open('tmp/test.rb', 'w') { |f| f.write contents}
-	output = output = `rspec tmp/test.rb -f json`
+	output = `rspec tmp/test.rb -fj`
 	`rm tmp/test.rb`
 	return output
 end
