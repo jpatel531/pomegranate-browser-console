@@ -25,8 +25,7 @@ end
 post '/command' do 
 	response['Access-Control-Allow-Origin'] = '*'
 	data = JSON.parse(request.body.read)
-	command = data["command"]
-	tests = data["tests"]
+	command, tests = data["command"], data["tests"]
 	contents = command + "\n" + tests
 	File.open('tmp/test.rb', 'w') { |f| f.write contents}
 	output = `rspec tmp/test.rb -fj`

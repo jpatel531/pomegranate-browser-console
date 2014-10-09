@@ -1,17 +1,25 @@
-%div{:"ng-app" =>"console"}
+.container.col-md-12{:"ng-app" =>"console", :"ng-controller" => "AppCtrl"}
 
-	%div{:"ng-controller" => "AppCtrl"}
+	.row
 
-		%ui-codemirror.code-here{:"ng-model" => "tests", :"ui-codemirror-opts" => "editorOptions"}
+		.code-container.col-md-6
 
-		%ui-codemirror.code-here{:"ng-model" => "command", :"ui-codemirror-opts" => "editorOptions" }
+			%h2.text-center Test Code
+			.code-here
+				%ui-codemirror.code-here{:"ng-model" => "tests", :"ui-codemirror-opts" => "editorOptions"}
+
+		.code-container.col-md-6
+			%h2.text-center Source Code
+			.code-here
+				%ui-codemirror.code-here{:"ng-model" => "command", :"ui-codemirror-opts" => "editorOptions" }
 		
 
-		%div
-			%button{:"ng-click" => "submitCommand($event)"} Submit!
+	.row
+		%button.btn.btn-default.submit-code.center-block{:"ng-click" => "submitCommand($event)", :"ng-disabled" => "!command || !tests"} Submit!
 
-		%div
-			%h5 {{results.summary_line}}
+	.row
+		.results.col-md-12
+			%h5 {{results.summary_line || results.crash}}
 
 			%ul
 				%li{:"ng-repeat" => "example in results.examples", :"ng-class" => "{'failed': example.status == 'failed', 'passed': example.status == 'passed'}"}
