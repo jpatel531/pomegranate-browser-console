@@ -1,9 +1,6 @@
 .container.col-md-12{:"ng-app" =>"console", :"ng-controller" => "AppCtrl"}
 
 	.row
-		%input.center-block{:"ng-model" => "stepNumber"}
-
-	.row
 		.code-container.col-md-6
 
 			%h2.text-center Test Code
@@ -18,6 +15,7 @@
 
 	.row
 		%button.btn.btn-default.submit-code.center-block{:"ng-click" => "submitCommand($event)", :"ng-disabled" => "!command || !tests"} Submit!
+		%btn.btn.btn-default.next.center-block{:"ng-disabled" => "failures", :"ng-init" => "failures = true", :"ng-click" => "goToNextStep()"} Next
 
 	.row
 		%h5 {{step.instruction}}

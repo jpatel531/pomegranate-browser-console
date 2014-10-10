@@ -5,8 +5,13 @@ angular.module('console', ['ui.codemirror']).controller('AppCtrl', function($sco
 		$http.post('/command', {command: $scope.command, tests: $scope.tests}).success(function(data){
 			$scope.results = data
 			NProgress.done();
+            $scope.failures = (typeof($scope.results.summary_line) === 'undefined') || _.any($scope.results.examples, function(example){
+                return example.status == 'failed'
+            });
 		});
 	};
+
+    $scope.goToNextStep = function(){ $scope.stepNumber ++  };
 
     $scope.editorOptions = {
         lineWrapping : true,
@@ -17,8 +22,8 @@ angular.module('console', ['ui.codemirror']).controller('AppCtrl', function($sco
     };
 
     $scope.$watch('stepNumber', function(){
-        var step = $scope.tutorial[$scope.stepNumber]
-        var url = "https://api.github.com/repos/jpatel531/tut-fizz/contents/" + step.spec + "?ref=" + step.commit
+        $scope.step = $scope.tutorial[$scope.stepNumber]
+        var url = "https://api.github.com/repos/jpatel531/pomegranate-fizzbuzz/contents/" + $scope.step.spec + "?ref=" + $scope.step.commit
         $http({
             url: url,
             method: 'GET',
@@ -33,7 +38,7 @@ angular.module('console', ['ui.codemirror']).controller('AppCtrl', function($sco
 
 
 	$http({
-	    url: 'https://api.github.com/repos/jpatel531/tut-fizz/contents/tutorial.json',
+	    url: 'https://api.github.com/repos/jpatel531/pomegranate-fizzbuzz/contents/pomegranate.json',
 	    method: 'GET',
 	    headers: {
 	        "Accept": "application/vnd.github-blob.raw"
