@@ -27,7 +27,6 @@ angular.module('console', ['ui.codemirror']).controller('AppCtrl', function($sco
         $scope.step = response[0]
 	}).then(function(){
         var url = "https://api.github.com/repos/jpatel531/tut-fizz/contents/" + $scope.step.spec + "?ref=" + $scope.step.commit
-        console.log(url)
         $http({
             url: url,
             method: 'GET',
@@ -36,7 +35,7 @@ angular.module('console', ['ui.codemirror']).controller('AppCtrl', function($sco
             }
 
         }).success(function(data){
-            $scope.tests = data
+            $scope.tests = data.replace(/require (["'])(?:(?=(\\?))\2.)*?\1/, "")
         });
     });
 
