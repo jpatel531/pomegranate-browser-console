@@ -16,17 +16,9 @@ angular.module('console', ['ui.codemirror']).controller('AppCtrl', function($sco
         indentUnit: 2
     };
 
-
-	$http({
-	    url: 'https://api.github.com/repos/jpatel531/tut-fizz/contents/tutorial.json',
-	    method: 'GET',
-	    headers: {
-	        "Accept": "application/vnd.github-blob.raw"
-	    }
-	}).success(function(response){
-        $scope.step = response[0]
-	}).then(function(){
-        var url = "https://api.github.com/repos/jpatel531/tut-fizz/contents/" + $scope.step.spec + "?ref=" + $scope.step.commit
+    $scope.$watch('stepNumber', function(){
+        var step = $scope.tutorial[$scope.stepNumber]
+        var url = "https://api.github.com/repos/jpatel531/tut-fizz/contents/" + step.spec + "?ref=" + step.commit
         $http({
             url: url,
             method: 'GET',
@@ -35,8 +27,20 @@ angular.module('console', ['ui.codemirror']).controller('AppCtrl', function($sco
             }
 
         }).success(function(data){
-            $scope.tests = data.replace(/require (["'])(?:(?=(\\?))\2.)*?\1/, "")
+            $scope.tests = data.replace(/require (["'])(?:(?=(\\?))\2.)*?\1/, "");
         });
     });
+
+
+	$http({
+	    url: 'https://api.github.com/repos/jpatel531/tut-fizz/contents/tutorial.json',
+	    method: 'GET',
+	    headers: {
+	        "Accept": "application/vnd.github-blob.raw"
+	    }
+	}).success(function(response){
+        $scope.tutorial = response
+        $scope.stepNumber = 0
+	});
 
 });
